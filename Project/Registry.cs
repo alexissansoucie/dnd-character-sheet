@@ -18,6 +18,6 @@ public class Registry
     public List<Character> All()
     {
         // TODO — Task 5. Hand back a COPY, never the list itself.
-        return _items;                                   // ← yours
+        return new List<Character>(_items);                                 // ← yours
     }
 }
