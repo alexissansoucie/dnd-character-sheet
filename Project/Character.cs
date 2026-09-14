@@ -4,68 +4,79 @@ public class Character
     // TODO — Task 2. These three are holes: anything, anywhere, can write
     // anything into them. Close every one into a property.
     // Task 3 gives one of them a rule; Task 4 seals one shut.
-    private string _name;      // ← yours
-    private string _species;
-    private string _class;
-    private string _background;
+
+    private string _name = "Unknown";
+    private string _species = "Unknown";
+    private string _class = "Unknown";
+    private string _background = "Unknown";
     private int _age;
+
+    public string Name
+    {
+        get { return _name; }
+        set
+        {
+            if (!string.IsNullOrWhiteSpace(value))
+            {
+                _name = value.Trim();
+            }
+        }
+    }
+
+    public string Species
+    {
+        get { return _species; }
+        set
+        {
+            if (!string.IsNullOrWhiteSpace(value))
+            {
+                _species = value.Trim();
+            }
+        }
+    }
+
+    public string Class
+    {
+        get { return _class; }
+        set
+        {
+            if (!string.IsNullOrWhiteSpace(value))
+            {
+                _class = value.Trim();
+            }
+        }
+    }
+
+    public string Background
+    {
+        get { return _background; }
+        set
+        {
+            if (!string.IsNullOrWhiteSpace(value))
+            {
+                _background = value.Trim();
+            }
+        }
+    }
+
+    public int Age
+    {
+        get { return _age; }
+        private set { _age = value; }
+    }
+
+    public Character(string name)
+    {
+        Name = name;
+    }
 
     public Character(string name, string species, string characterClass, string background, int age)
     {
-        _name = name;
-        _species = species;
-        _class = characterClass;
-        _background = background;
-        _age = age;        
+        Name = name;
+        Species = species;
+        Class = characterClass;
+        Background = background;
+        Age = age;
     }
 
-    public string GetName()
-    {
-        return _name;
-    }
-
-    public string GetSpecies()
-    {
-        return _species;
-    }
-
-    public string GetClass()
-    {
-        return _class;
-    }
-
-    public string GetBackground()
-    {
-        return _background;
-    }
-
-    public int GetAge()
-    {
-        return _age;
-    }
-
-    public void SetName(string name)
-    {
-        _name = name;
-    }
-
-    public void SetSpecies(string species)
-    {
-        _species = species;
-    }
-
-    public void SetClass(string characterClass)
-    {
-        _class = characterClass;
-    }
-
-    public void SetBackground(string background)
-    {
-        _background = background;
-    }
-
-    public void SetAge(int age)
-    {
-        _age = age;
-    }
 }
