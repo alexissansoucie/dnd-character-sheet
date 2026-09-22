@@ -20,4 +20,29 @@ public class Registry
         // TODO — Task 5. Hand back a COPY, never the list itself.
         return new List<Character>(_items);                                 // ← yours
     }
+
+    public Character? Find(string name)
+    {
+        foreach (Character character in _items)
+        {
+            if (character.Name == name)
+            {
+                return character;
+            }
+        }
+        return null;
+    }
+
+    public bool Remove(string name)
+    {
+        Character? found = Find(name);
+
+        if (found == null)
+        {
+            return false;
+        }
+
+        _items.Remove(found);
+        return true;
+    }
 }
