@@ -1,8 +1,6 @@
-﻿// Project/Program.cs — swap Thing for your record's name, and print your own facts
-using System.ComponentModel;
+﻿using System.ComponentModel;
 using Spectre.Console;
 
-// Project/Program.cs — swap Thing for your record's name and Find/Visit for yours
 var registry = new Registry();
 
 Character phoenix = new Character("Phoenix", "Fairy", "Rouge", "background", 45);
@@ -81,28 +79,6 @@ while (noExit)
     Menu();
 }
 
-void AddCharacter()
-{
-    AnsiConsole.Markup("[aqua]What is your Character's name?[/] ");
-    string name = Console.ReadLine() ?? "---";
-
-    AnsiConsole.Markup("[blue]What is your Character's species?[/] ");
-    string species = Console.ReadLine() ?? "---";
-
-    AnsiConsole.Markup("[purple]What is your Character's class?[/] ");
-    string characterClass = Console.ReadLine() ?? "---";
-
-    AnsiConsole.Markup("[darkblue]What is your Character's background?[/] ");
-    string background = Console.ReadLine() ?? "---";
-
-    AnsiConsole.Markup("[aqua]What is your Character's age?[/] ");
-    int age = int.Parse(Console.ReadLine() ?? "");
-
-    Character character = new Character(name, species, characterClass, background, age);
-
-    registry.Add(character);
-}
-
 void Menu()
 {
 
@@ -118,11 +94,22 @@ void Menu()
     switch (choice)
     {
         case 1:
-            AddCharacter();
+            Character character = Character.AddCharacter();
+            registry.Add(character);
             break;
         case 2:
-            CharacterTable();
+            CharacterTable.Display(registry);
             break;
+        case 3:
+            CharacterTable.FindCharacter();
+            break;
+
+        case 4:
+            break;
+
+        case 5:
+            break;
+
         case 0:
             noExit = false;
             break;
@@ -130,35 +117,4 @@ void Menu()
             AnsiConsole.MarkupLine("[fuchsia]Please enter 1, 2, or 0.[/]");
             break;
     }
-}
-
-void CharacterTable()
-{
-    AnsiConsole.MarkupLine($"[bold teal]\n{Markup.Escape(Registry.Topic)}[/]");
-    AnsiConsole.MarkupLine($"[darkblue]{registry.Count} character(s) on file.[/]");
-
-    var table = new Table();
-    table.Border = TableBorder.Rounded;
-    table.BorderStyle = new Style(Color.Black);
-    table.Title("[bold purple]D&D Characters[/]");
-    table.AddColumn("[bold fuchsia]Name[/]");
-    table.AddColumn("[bold aqua]Species[/]");
-    table.AddColumn("[bold blue]Class[/]");
-    table.AddColumn("[bold teal]Background[/]");
-    table.AddColumn("[bold darkblue]Age[/]");
-
-    int rowIndex = 0;
-    foreach (Character character in registry.All())
-    {
-        string rowColor = rowIndex % 2 == 0 ? "darkred" : "darkgreen";
-        table.AddRow(
-            $"[{rowColor}]{Markup.Escape(character.Name)}[/]",
-            $"[{rowColor}]{Markup.Escape(character.Species)}[/]",
-            $"[{rowColor}]{Markup.Escape(character.Class)}[/]",
-            $"[{rowColor}]{Markup.Escape(character.Background)}[/]",
-            $"[{rowColor}]{character.Age}[/]");
-        rowIndex++;
-    }
-
-    AnsiConsole.Write(table);
 }
