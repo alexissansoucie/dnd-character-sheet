@@ -23,6 +23,11 @@ AnsiConsole.Write(dungeonsAndDragons);
 AnsiConsole.Write(characterSheet);
 AnsiConsole.WriteLine();
 
+Character phoenix = new Character("Phoenix", "Fairy", "Rouge", "background", 45);
+registry.Add(phoenix);
+Character virgil = new Character("Virgil", "Human", "Bard", "background", 36);
+registry.Add(virgil);
+
 string[] dragonLines = Dragon.Art.Split(Environment.NewLine);
 int dragonWidth = dragonLines.Max(line => line.Length);
 int leftPadding = Math.Max(0, (Console.WindowWidth - dragonWidth) / 2);
@@ -32,6 +37,15 @@ for (int lineIndex = 0; lineIndex < dragonLines.Length; lineIndex++)
     string centeredLine = new string(' ', leftPadding) + dragonLines[lineIndex];
     AnsiConsole.MarkupLine($"[{color}]{Markup.Escape(centeredLine)}[/]");
 }
+
+Console.WriteLine();
+
+// Your verb, on two of your records — watch only one of them move.
+List<Character> both = registry.All();
+Console.WriteLine($"before:  {both[0].Level}   {both[1].Level}");
+both[0].LevelUp();
+Console.WriteLine($"after:   {both[0].Level}   {both[1].Level}");
+
 while(noExit){
     Menu();
 }

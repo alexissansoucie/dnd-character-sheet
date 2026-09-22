@@ -10,6 +10,7 @@ public class Character
     private string _class = "Unknown";
     private string _background = "Unknown";
     private int _age;
+    private int _level = 1;
 
     public string Name
     {
@@ -59,10 +60,13 @@ public class Character
         }
     }
 
-    public int Age
+    public int Age {get; private set;}
+
+    public int Level {get; private set;}
+
+    public void LevelUp()
     {
-        get { return _age; }
-        private set { _age = value; }
+        Level++;
     }
 
     public Character(string name)
