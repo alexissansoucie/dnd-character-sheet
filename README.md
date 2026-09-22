@@ -1,2 +1,2 @@
 - Week 4: Initial class build
-- Week 5: The record does something, The registry can find one, or say there isn't one, And can take one off the books
+- Week 5: The record does something, The registry can find one, or say there isn't one, And can take one off the books, clean up
