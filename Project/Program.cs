@@ -59,6 +59,13 @@ Console.WriteLine(known == null ? "Nothing on file by that name." : "Found it.")
 Character? missing = registry.Find("something I never added");
 Console.WriteLine(missing == null ? "Nothing on file by that name." : "...found something that shouldn't be there.");
 
+//Task 5
+Console.WriteLine();
+Console.WriteLine(registry.Remove("Virgil")
+    ? "Removed."
+    : "Nothing by that name.");
+Console.WriteLine($"{registry.Count} on file.");
+
 while(noExit){
     Menu();
 }
