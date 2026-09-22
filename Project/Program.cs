@@ -38,6 +38,8 @@ for (int lineIndex = 0; lineIndex < dragonLines.Length; lineIndex++)
     AnsiConsole.MarkupLine($"[{color}]{Markup.Escape(centeredLine)}[/]");
 }
 
+
+//Task 2
 Console.WriteLine();
 
 // Your verb, on two of your records — watch only one of them move.
@@ -45,6 +47,17 @@ List<Character> both = registry.All();
 Console.WriteLine($"before:  {both[0].Level}   {both[1].Level}");
 both[0].LevelUp();
 Console.WriteLine($"after:   {both[0].Level}   {both[1].Level}");
+
+//Task 3
+Console.WriteLine();
+
+// One I know is on the registry.
+Character? known = registry.Find("Virgil");
+Console.WriteLine(known == null ? "Nothing on file by that name." : "Found it.");
+
+// And one nobody has ever heard of.
+Character? missing = registry.Find("something I never added");
+Console.WriteLine(missing == null ? "Nothing on file by that name." : "...found something that shouldn't be there.");
 
 while(noExit){
     Menu();
