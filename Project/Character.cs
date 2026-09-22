@@ -11,6 +11,7 @@ public class Character
     private string _background = "Unknown";
     private int _age;
     private int _level = 1;
+    // jeff test
 
     public string Name
     {
@@ -23,6 +24,8 @@ public class Character
             }
         }
     }
+
+    //comment to show merge
 
     public string Species
     {
