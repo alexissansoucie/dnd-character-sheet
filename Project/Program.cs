@@ -5,13 +5,32 @@ using Spectre.Console;
 var registry = new Registry();
 bool noExit = true;
 
-AnsiConsole.Write(new FigletText("DND Character Sheet Manager").Color(Color.Green));
+var fontPath = @"C:\Users\alexi\OneDrive\Documents\WCTC\Fall2026\.NetDatabases\dnd-charactor-sheet\Project\Small.flf";
+var font = FigletFont.Load(fontPath);
+var dungeonsAndDragons = new FigletText(font, "Dungeons And Dragons")
+{
+    Justification = Justify.Center,
+    Color = Color.DeepSkyBlue1
+
+};
+var characterSheet = new FigletText(font, "Character Sheet Manager")
+{
+    Justification = Justify.Center,
+    Color = Color.BlueViolet
+
+};
+AnsiConsole.Write(dungeonsAndDragons);
+AnsiConsole.Write(characterSheet);
+AnsiConsole.WriteLine();
 
 string[] dragonLines = Dragon.Art.Split(Environment.NewLine);
+int dragonWidth = dragonLines.Max(line => line.Length);
+int leftPadding = Math.Max(0, (Console.WindowWidth - dragonWidth) / 2);
 for (int lineIndex = 0; lineIndex < dragonLines.Length; lineIndex++)
 {
     string color = lineIndex % 2 == 0 ? "purple" : "blue";
-    AnsiConsole.MarkupLine($"[{color}]{Markup.Escape(dragonLines[lineIndex])}[/]");
+    string centeredLine = new string(' ', leftPadding) + dragonLines[lineIndex];
+    AnsiConsole.MarkupLine($"[{color}]{Markup.Escape(centeredLine)}[/]");
 }
 while(noExit){
     Menu();
