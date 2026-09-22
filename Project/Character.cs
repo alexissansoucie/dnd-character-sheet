@@ -24,6 +24,8 @@ public class Character
         }
     }
 
+    //comment to show merge
+
     public string Species
     {
         get { return _species; }
