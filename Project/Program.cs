@@ -2,7 +2,50 @@
 using System.ComponentModel;
 using Spectre.Console;
 
+// Project/Program.cs — swap Thing for your record's name and Find/Visit for yours
 var registry = new Registry();
+
+Character phoenix = new Character("Phoenix", "Fairy", "Rouge", "background", 45);
+registry.Add(phoenix);
+Character virgil = new Character("Virgil", "Human", "Bard", "background", 36);
+registry.Add(virgil);
+
+Console.WriteLine(Registry.Topic);
+Console.WriteLine($"{registry.Count} on file.");
+Console.WriteLine();
+
+// One I know something about.
+Character? known = registry.Find("Virgil");
+if (known == null)
+{
+    Console.WriteLine("Nothing on file by that name.");
+}
+else
+{
+    known.LevelUp();
+    Console.WriteLine($"{known.Name} - Level {known.Level}");
+}
+
+// And one nobody has ever heard of.
+Character? missing = registry.Find("something I never added");
+Console.WriteLine(missing == null
+    ? "Nothing on file by that name."
+    : "...found someCharacter that shouldn't be there.");
+
+Console.WriteLine();
+Console.Write("Take one off the books (Enter to skip): ");
+string? name = Console.ReadLine();
+if (!string.IsNullOrWhiteSpace(name))
+{
+    Console.WriteLine(registry.Remove(name) ? "Removed." : "Nothing by that name.");
+}
+
+Console.WriteLine();
+foreach (Character item in registry.All())
+{
+    Console.WriteLine(item.Name);
+}
+Console.WriteLine($"{registry.Count} on file.");
 bool noExit = true;
 
 var fontPath = @"C:\Users\alexi\OneDrive\Documents\WCTC\Fall2026\.NetDatabases\dnd-charactor-sheet\Project\Small.flf";
@@ -23,11 +66,6 @@ AnsiConsole.Write(dungeonsAndDragons);
 AnsiConsole.Write(characterSheet);
 AnsiConsole.WriteLine();
 
-Character phoenix = new Character("Phoenix", "Fairy", "Rouge", "background", 45);
-registry.Add(phoenix);
-Character virgil = new Character("Virgil", "Human", "Bard", "background", 36);
-registry.Add(virgil);
-
 string[] dragonLines = Dragon.Art.Split(Environment.NewLine);
 int dragonWidth = dragonLines.Max(line => line.Length);
 int leftPadding = Math.Max(0, (Console.WindowWidth - dragonWidth) / 2);
@@ -38,35 +76,8 @@ for (int lineIndex = 0; lineIndex < dragonLines.Length; lineIndex++)
     AnsiConsole.MarkupLine($"[{color}]{Markup.Escape(centeredLine)}[/]");
 }
 
-
-//Task 2
-Console.WriteLine();
-
-// Your verb, on two of your records — watch only one of them move.
-List<Character> both = registry.All();
-Console.WriteLine($"before:  {both[0].Level}   {both[1].Level}");
-both[0].LevelUp();
-Console.WriteLine($"after:   {both[0].Level}   {both[1].Level}");
-
-//Task 3
-Console.WriteLine();
-
-// One I know is on the registry.
-Character? known = registry.Find("Virgil");
-Console.WriteLine(known == null ? "Nothing on file by that name." : "Found it.");
-
-// And one nobody has ever heard of.
-Character? missing = registry.Find("something I never added");
-Console.WriteLine(missing == null ? "Nothing on file by that name." : "...found something that shouldn't be there.");
-
-//Task 5
-Console.WriteLine();
-Console.WriteLine(registry.Remove("Virgil")
-    ? "Removed."
-    : "Nothing by that name.");
-Console.WriteLine($"{registry.Count} on file.");
-
-while(noExit){
+while (noExit)
+{
     Menu();
 }
 
@@ -94,7 +105,7 @@ void AddCharacter()
 
 void Menu()
 {
-    
+
     AnsiConsole.MarkupLine("[bold aqua]\nD&D Character Menu[/]");
     foreach (string item in MenuItems.Items)
     {
