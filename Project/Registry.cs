@@ -1,5 +1,5 @@
 // Project/Registry.cs
-public class Registry
+public class Registry : IListed
 {
     private readonly List<Character> _items = new List<Character>();
 
@@ -45,4 +45,8 @@ public class Registry
         _items.Remove(found);
         return true;
     }
+
+    public string Kind => "REGISTRY";
+
+    public string Line() => $"{Registry.Topic} with {_items.Count} on file";
 }
