@@ -76,9 +76,9 @@ for (int lineIndex = 0; lineIndex < dragonLines.Length; lineIndex++)
 
 Console.WriteLine();
 
-foreach (Character item in registry.All())
+foreach (IListed thing in registry.Everything())
 {
-    Console.WriteLine($"{item.Kind,-12}{item.Line()}");
+    Console.WriteLine($"{thing.Kind,-12}{thing.Line()}");
 }
 
 while (noExit)

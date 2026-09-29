@@ -13,6 +13,20 @@ public class Registry : IListed
         _items.Add(item);
     }
 
+    public List<IListed> Everything()
+    {
+        List<IListed> listing = new List<IListed>();
+
+        listing.Add(this);
+
+        foreach (Character item in _items)
+        {
+            listing.Add(item);
+        }
+
+        return listing;
+    }
+
     public int Count => _items.Count;
 
     public List<Character> All()
