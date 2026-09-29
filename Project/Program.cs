@@ -3,9 +3,9 @@ using Spectre.Console;
 
 var registry = new Registry();
 
-Character phoenix = new Character("Phoenix", "Fairy", "Rouge", "background", 45);
+Character phoenix = new Character("Phoenix Longbottom", "Phoenix", "Longbottom", "Fairy", "Rouge", "background", 45);
 registry.Add(phoenix);
-Character virgil = new Character("Virgil", "Human", "Bard", "background", 36);
+Character virgil = new Character("Virgil Pureman", "Virgil", "Pureman", "Human", "Bard", "background", 36);
 registry.Add(virgil);
 
 Console.WriteLine(Registry.Topic);
@@ -74,6 +74,13 @@ for (int lineIndex = 0; lineIndex < dragonLines.Length; lineIndex++)
     AnsiConsole.MarkupLine($"[{color}]{Markup.Escape(centeredLine)}[/]");
 }
 
+Console.WriteLine();
+
+foreach (Character item in registry.All())
+{
+    Console.WriteLine($"{item.Kind,-12}{item.Line()}");
+}
+
 while (noExit)
 {
     Menu();
@@ -98,10 +105,10 @@ void Menu()
             registry.Add(character);
             break;
         case 2:
-            CharacterTable.Display(registry);
+            // CharacterTable.Display(registry);
             break;
         case 3:
-            CharacterTable.FindCharacter();
+            // CharacterTable.FindCharacter();
             break;
 
         case 4:

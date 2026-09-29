@@ -1,7 +1,7 @@
 // Project/Thing.cs — Thing is a PLACEHOLDER. Rename the file and the class.
 using Spectre.Console;
 
-public class Character
+public class Character : IListed
 {
     // TODO — Task 2. These three are holes: anything, anywhere, can write
     // anything into them. Close every one into a property.
@@ -15,7 +15,9 @@ public class Character
     private string _background = "Unknown";
     private int _age;
     private int _level = 1;
-    // jeff test
+    public string Kind => "CHARACTER";
+
+    public string Line() => $"{Name} is a {Species} {Class} and is currently Level {Level}";
 
     public string Name
     {
