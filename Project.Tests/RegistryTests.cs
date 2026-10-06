@@ -32,4 +32,18 @@ public class RegistryTests
 
         Assert.Same(depot, found);
     }
+
+    [Fact]
+    public void Check4_RemovingAStrangerSaysNo()
+    {
+        var registry = new Registry();
+
+        var keeper = new Character("Phoenix Longbottom", "Phoenix", "Longbottom", "Fairy", "Rouge", "background", 45);
+        registry.Add(keeper);
+
+        var removed = registry.Remove("Draco Malfoy");
+
+        Assert.False(removed);
+        Assert.Equal(1, registry.Count);
+    }
 }
