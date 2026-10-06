@@ -19,4 +19,17 @@ public class RegistryTests
         // do the thing:   Add two records, with two DIFFERENT names
         // check:          Assert.Equal — what should Count be?
     }
+
+    [Fact]
+    public void Check3_FindHandsBackTheRecordItHolds()
+    {
+        var registry = new Registry();
+
+        var depot = new Character("Phoenix Longbottom", "Phoenix", "Longbottom", "Fairy", "Rouge", "background", 45);
+        registry.Add(depot);
+
+        var found = registry.Find("Phoenix Longbottom");
+
+        Assert.Same(depot, found);
+    }
 }
