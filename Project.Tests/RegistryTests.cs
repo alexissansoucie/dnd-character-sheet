@@ -46,4 +46,16 @@ public class RegistryTests
         Assert.False(removed);
         Assert.Equal(1, registry.Count);
     }
+
+    [Fact]
+    public void Check5_TheSameNameCannotRegisterTwice()
+    {
+        var registry = new Registry();
+
+        registry.Add(registry.NewItem("Phoenix Longbottom"));
+        registry.Add(registry.NewItem("Phoenix Longbottom"));
+
+        Assert.Equal(1, registry.Count);
+    }
+
 }

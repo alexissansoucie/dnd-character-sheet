@@ -10,6 +10,10 @@ public class Registry : IListed
 
     public void Add(Character item)
     {
+        if (Find(item.Name) != null)
+        {
+            return;
+        }
         _items.Add(item);
     }
 
