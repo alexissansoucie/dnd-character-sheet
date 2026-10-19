@@ -3,35 +3,41 @@ public static class CharacterTable
 {
     public static void Display(Registry registry)
     {
-
         AnsiConsole.MarkupLine($"[bold teal]\n{Markup.Escape(Registry.Topic)}[/]");
         AnsiConsole.MarkupLine($"[darkblue]{registry.Count} character(s) on file.[/]");
 
-        var table = new Table();
-        table.Border = TableBorder.Rounded;
-        table.BorderStyle = new Style(Color.Black);
+        var table = new Table
+        {
+            Border = TableBorder.Rounded,
+            BorderStyle = new Style(Color.Black)
+        };
+
         table.Title("[bold purple]D&D Characters[/]");
-        table.AddColumn("[bold fuchsia]Name[/]");
+        table.AddColumn("[bold CornflowerBlue]Index[/]");
+        table.AddColumn("[bold DarkMagenta]Name[/]");
         table.AddColumn("[bold aqua]Species[/]");
-        table.AddColumn("[bold blue]Class[/]");
-        table.AddColumn("[bold teal]Background[/]");
+        table.AddColumn("[bold DarkViolet]Class[/]");
+        table.AddColumn("[bold DeepSkyBlue4]Background[/]");
         table.AddColumn("[bold darkblue]Age[/]");
 
         int rowIndex = 0;
+
         foreach (Character character in registry.All())
         {
             string rowColor = rowIndex % 2 == 0 ? "darkred" : "darkgreen";
+
             table.AddRow(
-                        $"[{rowColor}]{Markup.Escape(character.Name)}[/]",
-                        $"[{rowColor}]{Markup.Escape(character.Species)}[/]",
-                        $"[{rowColor}]{Markup.Escape(character.Class)}[/]",
-                        $"[{rowColor}]{Markup.Escape(character.Background)}[/]",
-                        $"[{rowColor}]{character.Age}[/]");
+                $"[{rowColor}]{rowIndex}[/]",
+                $"[{rowColor}]{Markup.Escape(character.Name)}[/]",
+                $"[{rowColor}]{Markup.Escape(character.Species)}[/]",
+                $"[{rowColor}]{Markup.Escape(character.Class)}[/]",
+                $"[{rowColor}]{Markup.Escape(character.Background)}[/]",
+                $"[{rowColor}]{character.Age}[/]");
+
             rowIndex++;
         }
 
         AnsiConsole.Write(table);
-
     }
 
     public static void FindCharacter(Registry registry)
@@ -50,4 +56,35 @@ public static class CharacterTable
 
         registry.Find(name);
     }
+
+    public static void RemoveCharacter(Registry registry)
+    {
+        Display(registry);
+
+        AnsiConsole.Markup("[aqua]Which number character do you want to remove?[/] ");
+
+        while (true)
+        {
+            string input = Console.ReadLine()?.Trim() ?? string.Empty;
+
+            if (!int.TryParse(input, out int index))
+            {
+                AnsiConsole.MarkupLine("[red]Enter a valid number.[/]");
+                continue;
+            }
+
+            List<Character> characters = registry.All();
+
+            if (index < 0 || index >= characters.Count)
+            {
+                AnsiConsole.MarkupLine("[red]That index does not exist.[/]");
+                continue;
+            }
+
+            Character character = characters[index];
+            registry.Remove(character.Name);
+            break;
+        }
+    }
+
 }

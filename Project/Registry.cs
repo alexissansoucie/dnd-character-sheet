@@ -1,4 +1,6 @@
 // Project/Registry.cs
+using System.Text.Json;
+
 public class Registry : IListed
 {
     private readonly List<Character> _items = new List<Character>();
@@ -67,4 +69,12 @@ public class Registry : IListed
     public string Kind => "REGISTRY";
 
     public string Line() => $"{Registry.Topic} with {_items.Count} on file";
+
+    public void Save(string path)
+    {
+         string json = JsonSerializer.Serialize(_items,
+            new JsonSerializerOptions { WriteIndented = true });
+
+        File.WriteAllText(path, json);
+    }
 }

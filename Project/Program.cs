@@ -2,6 +2,7 @@
 using Spectre.Console;
 
 var registry = new Registry();
+string registryFile = "registry.json";
 
 Character phoenix = new Character("Phoenix Longbottom", "Phoenix", "Longbottom", "Fairy", "Rouge", "background", 45);
 registry.Add(phoenix);
@@ -105,13 +106,14 @@ void Menu()
             registry.Add(character);
             break;
         case 2:
-            // CharacterTable.Display(registry);
+            CharacterTable.Display(registry);
             break;
         case 3:
-            // CharacterTable.FindCharacter();
+            CharacterTable.FindCharacter(registry);
             break;
 
         case 4:
+            CharacterTable.RemoveCharacter(registry);
             break;
 
         case 5:
@@ -125,3 +127,6 @@ void Menu()
             break;
     }
 }
+
+registry.Save(registryFile);
+Console.WriteLine($"{registry.Count} on file, saved to {registryFile}.");

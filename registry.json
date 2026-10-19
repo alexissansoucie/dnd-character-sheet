@@ -1,0 +1,24 @@
+[
+  {
+    "Kind": "CHARACTER",
+    "Name": "Phoenix Longbottom",
+    "FirstName": "Phoenix",
+    "LastName": "Longbottom",
+    "Species": "Fairy",
+    "Class": "Rouge",
+    "Background": "background",
+    "Age": 45,
+    "Level": 0
+  },
+  {
+    "Kind": "CHARACTER",
+    "Name": "Virgil Pureman",
+    "FirstName": "Virgil",
+    "LastName": "Pureman",
+    "Species": "Human",
+    "Class": "Bard",
+    "Background": "background",
+    "Age": 36,
+    "Level": 0
+  }
+]
