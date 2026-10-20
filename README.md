@@ -2,4 +2,4 @@
 - Week 5: The record does something, The registry can find one, or say there isn't one, And can take one off the books, clean 
 - Week 6: The records know how to be listed, The registry writes its own heading, One list holds them both
 - Week 7: The project gets a suite of its own, Find hands back the record it holds, Removing a stranger says no, The guard, visible in the program.
-- Week 8: The registry writes itself down, And reads itself back
+- Week 8: The registry writes itself down, And reads itself back, A record keeps its own facts, and my fact proves it

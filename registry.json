@@ -8,7 +8,7 @@
     "Class": "Rouge",
     "Background": "background",
     "Age": 45,
-    "Level": 0
+    "Level": 3
   },
   {
     "Kind": "CHARACTER",
@@ -19,7 +19,7 @@
     "Class": "Bard",
     "Background": "background",
     "Age": 36,
-    "Level": 0
+    "Level": 3
   },
   {
     "Kind": "CHARACTER",
@@ -30,6 +30,17 @@
     "Class": "Druid",
     "Background": "Sage",
     "Age": 100,
-    "Level": 1
+    "Level": 3
+  },
+  {
+    "Kind": "CHARACTER",
+    "Name": "Ulfgard Unkown",
+    "FirstName": "Ulfgard",
+    "LastName": "Unkown",
+    "Species": "Dwarf",
+    "Class": "Fighter",
+    "Background": "Huntsman",
+    "Age": 100,
+    "Level": 3
   }
 ]

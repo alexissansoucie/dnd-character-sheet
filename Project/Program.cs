@@ -118,6 +118,7 @@ void Menu()
             break;
 
         case 5:
+            CharacterTable.LevelUpCharacters(registry);
             break;
 
         case 0:

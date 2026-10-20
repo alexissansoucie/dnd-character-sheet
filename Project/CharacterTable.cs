@@ -19,12 +19,13 @@ public static class CharacterTable
         table.AddColumn("[bold DarkViolet]Class[/]");
         table.AddColumn("[bold DeepSkyBlue4]Background[/]");
         table.AddColumn("[bold darkblue]Age[/]");
+        table.AddColumn("[bold teal]Level[/]");
 
         int rowIndex = 0;
 
         foreach (Character character in registry.All())
         {
-            string rowColor = rowIndex % 2 == 0 ? "darkred" : "darkgreen";
+            string rowColor = rowIndex % 2 == 0 ? "blue" : "purple";
 
             table.AddRow(
                 $"[{rowColor}]{rowIndex}[/]",
@@ -32,7 +33,8 @@ public static class CharacterTable
                 $"[{rowColor}]{Markup.Escape(character.Species)}[/]",
                 $"[{rowColor}]{Markup.Escape(character.Class)}[/]",
                 $"[{rowColor}]{Markup.Escape(character.Background)}[/]",
-                $"[{rowColor}]{character.Age}[/]");
+                $"[{rowColor}]{character.Age}[/]",
+                $"[{rowColor}]Level {character.Level} {character.Class}[/]");
 
             rowIndex++;
         }
@@ -85,6 +87,15 @@ public static class CharacterTable
             registry.Remove(character.Name);
             break;
         }
+    }
+
+    public static void LevelUpCharacters(Registry registry)
+    {
+        foreach (Character character in registry.All())
+        {
+            character.LevelUp();
+        }
+        AnsiConsole.MarkupLine("[DeepSkyBlue4]\nALL CHARACTERS LEVELED UP!!![/]");
     }
 
 }
