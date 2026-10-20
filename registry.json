@@ -1,0 +1,57 @@
+[
+  {
+    "Kind": "CHARACTER",
+    "Name": "Phoenix Longbottom",
+    "FirstName": "Phoenix",
+    "LastName": "Longbottom",
+    "Species": "Fairy",
+    "Class": "Rouge",
+    "Background": "background",
+    "Age": 45,
+    "Level": 1
+  },
+  {
+    "Kind": "CHARACTER",
+    "Name": "Arwen Thornheart",
+    "FirstName": "Arwen",
+    "LastName": "Thornheart",
+    "Species": "High Elf",
+    "Class": "Druid",
+    "Background": "Sage",
+    "Age": 100,
+    "Level": 1
+  },
+  {
+    "Kind": "CHARACTER",
+    "Name": "Ulfgard Unkown",
+    "FirstName": "Ulfgard",
+    "LastName": "Unkown",
+    "Species": "Dwarf",
+    "Class": "Fighter",
+    "Background": "Huntsman",
+    "Age": 100,
+    "Level": 1
+  },
+  {
+    "Kind": "CHARACTER",
+    "Name": "Malisandre Darksorrow",
+    "FirstName": "Malisandre",
+    "LastName": "Darksorrow",
+    "Species": "Human",
+    "Class": "Paladin",
+    "Background": "Theif",
+    "Age": 35,
+    "Level": 1
+  },
+  {
+    "Kind": "CHARACTER",
+    "Name": "Uhnu Featherbill",
+    "FirstName": "Uhnu",
+    "LastName": "Featherbill",
+    "Species": "Owlman",
+    "Class": "Fighter",
+    "Background": "Chef",
+    "Age": 32,
+    "Level": 1
+  }
+]

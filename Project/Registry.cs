@@ -1,4 +1,7 @@
 // Project/Registry.cs
+using System.Text.Json;
+
+
 public class Registry : IListed
 {
     private readonly List<Character> _items = new List<Character>();
@@ -67,4 +70,35 @@ public class Registry : IListed
     public string Kind => "REGISTRY";
 
     public string Line() => $"{Registry.Topic} with {_items.Count} on file";
+
+    public void Save(string path)
+    {
+         string json = JsonSerializer.Serialize(_items,
+            new JsonSerializerOptions { WriteIndented = true });
+
+        File.WriteAllText(path, json);
+    }
+
+    public void Load(string path)
+    {
+        if (!File.Exists(path))
+        {
+            return;
+        }
+
+        List<Character>? loaded =
+            JsonSerializer.Deserialize<List<Character>>(File.ReadAllText(path));
+
+        if (loaded == null)
+        {
+            return;
+        }
+
+        _items.Clear();
+
+        foreach (Character item in loaded)
+        {
+            _items.Add(item);
+        }
+    }
 }

@@ -1,5 +1,6 @@
 // Project/Thing.cs — Thing is a PLACEHOLDER. Rename the file and the class.
 using Spectre.Console;
+using System.Text.Json.Serialization;
 
 public class Character : IListed
 {
@@ -19,6 +20,7 @@ public class Character : IListed
 
     public string Line() => $"{Name} is a {Species} {Class} and is currently Level {Level}";
 
+    [JsonInclude]
     public string Name
     {
         get { return _name; }
@@ -31,6 +33,7 @@ public class Character : IListed
         }
     }
 
+    [JsonInclude]
     public string FirstName
     {
         get { return _firstName; }
@@ -43,6 +46,7 @@ public class Character : IListed
         }
     }
 
+    [JsonInclude]
     public string LastName
     {
         get { return _lastName; }
@@ -55,6 +59,7 @@ public class Character : IListed
         }
     }
 
+    [JsonInclude]
     public string Species
     {
         get { return _species; }
@@ -67,6 +72,7 @@ public class Character : IListed
         }
     }
 
+    [JsonInclude]
     public string Class
     {
         get { return _class; }
@@ -79,6 +85,7 @@ public class Character : IListed
         }
     }
 
+    [JsonInclude]
     public string Background
     {
         get { return _background; }
@@ -91,13 +98,19 @@ public class Character : IListed
         }
     }
 
+    [JsonInclude]
     public int Age { get; private set; }
 
-    public int Level { get; private set; }
+    [JsonInclude]
+    public int Level { get; private set; } = 1;
 
     public void LevelUp()
     {
         Level++;
+    }
+
+    public Character()
+    {
     }
 
     public Character(string name)
@@ -168,7 +181,7 @@ public class Character : IListed
             }
         } while (string.IsNullOrEmpty(characterClass));
 
-        AnsiConsole.Markup("[darkblue]What is your Character's background?[/] ");
+        AnsiConsole.Markup("[blue]What is your Character's background?[/] ");
         string background;
         do
         {
@@ -176,7 +189,7 @@ public class Character : IListed
             if (string.IsNullOrEmpty(background))
             {
                 AnsiConsole.MarkupLine("[red]A response is required.[/]");
-                AnsiConsole.Markup("[darkblue]What is your Character's background?[/] ");
+                AnsiConsole.Markup("[blue]What is your Character's background?[/] ");
             }
         } while (string.IsNullOrEmpty(background));
 

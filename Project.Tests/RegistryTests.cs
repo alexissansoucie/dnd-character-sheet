@@ -58,4 +58,24 @@ public class RegistryTests
         Assert.Equal(1, registry.Count);
     }
 
+    [Fact]
+    public void Week8_TheRegistrySurvivesARestart()
+    {
+        string path = Path.Combine(Path.GetTempPath(), "something-yours.json");
+        File.Delete(path);
+
+        Registry registry = new Registry();
+        Character item = registry.NewItem("Arwen Thornheart");
+        registry.Add(item);
+        item.LevelUp();
+
+        registry.Save(path);
+
+        Registry reopened = new Registry();
+        reopened.Load(path);
+
+        Assert.Equal(1, reopened.Count);
+        Assert.Equal(2, reopened.All()[0].Level);
+    }
+
 }
