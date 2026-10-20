@@ -3,6 +3,7 @@ using Spectre.Console;
 
 var registry = new Registry();
 string registryFile = "registry.json";
+registry.Load(registryFile);
 
 Character phoenix = new Character("Phoenix Longbottom", "Phoenix", "Longbottom", "Fairy", "Rouge", "background", 45);
 registry.Add(phoenix);

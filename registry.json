@@ -20,5 +20,16 @@
     "Background": "background",
     "Age": 36,
     "Level": 0
+  },
+  {
+    "Kind": "CHARACTER",
+    "Name": "Arwen Thornheart",
+    "FirstName": "Arwen",
+    "LastName": "Thornheart",
+    "Species": "High Elf",
+    "Class": "Druid",
+    "Background": "Sage",
+    "Age": 100,
+    "Level": 1
   }
 ]

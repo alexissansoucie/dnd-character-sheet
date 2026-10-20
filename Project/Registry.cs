@@ -77,4 +77,27 @@ public class Registry : IListed
 
         File.WriteAllText(path, json);
     }
+
+    public void Load(string path)
+    {
+        if (!File.Exists(path))
+        {
+            return;
+        }
+
+        List<Character>? loaded =
+            JsonSerializer.Deserialize<List<Character>>(File.ReadAllText(path));
+
+        if (loaded == null)
+        {
+            return;
+        }
+
+        _items.Clear();
+
+        foreach (Character item in loaded)
+        {
+            _items.Add(item);
+        }
+    }
 }
