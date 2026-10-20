@@ -181,7 +181,7 @@ public class Character : IListed
             }
         } while (string.IsNullOrEmpty(characterClass));
 
-        AnsiConsole.Markup("[darkblue]What is your Character's background?[/] ");
+        AnsiConsole.Markup("[blue]What is your Character's background?[/] ");
         string background;
         do
         {
@@ -189,7 +189,7 @@ public class Character : IListed
             if (string.IsNullOrEmpty(background))
             {
                 AnsiConsole.MarkupLine("[red]A response is required.[/]");
-                AnsiConsole.Markup("[darkblue]What is your Character's background?[/] ");
+                AnsiConsole.Markup("[blue]What is your Character's background?[/] ");
             }
         } while (string.IsNullOrEmpty(background));
 

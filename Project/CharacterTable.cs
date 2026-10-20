@@ -4,12 +4,12 @@ public static class CharacterTable
     public static void Display(Registry registry)
     {
         AnsiConsole.MarkupLine($"[bold teal]\n{Markup.Escape(Registry.Topic)}[/]");
-        AnsiConsole.MarkupLine($"[darkblue]{registry.Count} character(s) on file.[/]");
+        AnsiConsole.MarkupLine($"[blue]{registry.Count} character(s) on file.[/]");
 
         var table = new Table
         {
             Border = TableBorder.Rounded,
-            BorderStyle = new Style(Color.Black)
+            BorderStyle = new Style(Color.Violet)
         };
 
         table.Title("[bold purple]D&D Characters[/]");
@@ -18,7 +18,7 @@ public static class CharacterTable
         table.AddColumn("[bold aqua]Species[/]");
         table.AddColumn("[bold DarkViolet]Class[/]");
         table.AddColumn("[bold DeepSkyBlue4]Background[/]");
-        table.AddColumn("[bold darkblue]Age[/]");
+        table.AddColumn("[bold blue]Age[/]");
         table.AddColumn("[bold teal]Level[/]");
 
         int rowIndex = 0;
@@ -84,7 +84,18 @@ public static class CharacterTable
             }
 
             Character character = characters[index];
+
+            AnsiConsole.Markup($"[red]Are you sure you want to remove {Markup.Escape(character.Name)}? (y/n)[/] ");
+            string confirmation = Console.ReadLine()?.Trim().ToLower() ?? string.Empty;
+
+            if (confirmation != "y" && confirmation != "yes")
+            {
+                AnsiConsole.MarkupLine("[yellow]Character was not removed.[/]");
+                break;
+            }
+
             registry.Remove(character.Name);
+            AnsiConsole.MarkupLine($"[red]{character.Name} has been removed[/]");
             break;
         }
     }

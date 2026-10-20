@@ -1,6 +1,7 @@
 // Project/Registry.cs
 using System.Text.Json;
 
+
 public class Registry : IListed
 {
     private readonly List<Character> _items = new List<Character>();

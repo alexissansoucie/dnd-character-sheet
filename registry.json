@@ -8,18 +8,7 @@
     "Class": "Rouge",
     "Background": "background",
     "Age": 45,
-    "Level": 3
-  },
-  {
-    "Kind": "CHARACTER",
-    "Name": "Virgil Pureman",
-    "FirstName": "Virgil",
-    "LastName": "Pureman",
-    "Species": "Human",
-    "Class": "Bard",
-    "Background": "background",
-    "Age": 36,
-    "Level": 3
+    "Level": 1
   },
   {
     "Kind": "CHARACTER",
@@ -30,7 +19,7 @@
     "Class": "Druid",
     "Background": "Sage",
     "Age": 100,
-    "Level": 3
+    "Level": 1
   },
   {
     "Kind": "CHARACTER",
@@ -41,6 +30,28 @@
     "Class": "Fighter",
     "Background": "Huntsman",
     "Age": 100,
-    "Level": 3
+    "Level": 1
+  },
+  {
+    "Kind": "CHARACTER",
+    "Name": "Malisandre Darksorrow",
+    "FirstName": "Malisandre",
+    "LastName": "Darksorrow",
+    "Species": "Human",
+    "Class": "Paladin",
+    "Background": "Theif",
+    "Age": 35,
+    "Level": 1
+  },
+  {
+    "Kind": "CHARACTER",
+    "Name": "Uhnu Featherbill",
+    "FirstName": "Uhnu",
+    "LastName": "Featherbill",
+    "Species": "Owlman",
+    "Class": "Fighter",
+    "Background": "Chef",
+    "Age": 32,
+    "Level": 1
   }
 ]
