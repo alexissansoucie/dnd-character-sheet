@@ -78,4 +78,14 @@ public class RegistryTests
         Assert.Equal(2, reopened.All()[0].Level);
     }
 
+    [Fact]
+    public void Week9_FindComesBackEmptyHanded()
+    {
+        Registry registry = new Registry();
+        Character item = registry.NewItem("Arwen Thornheart");
+        registry.Add(item);
+        Assert.Same(item, registry.Find("Arwen Thornheart"));
+        Assert.Null(registry.Find("a name nobody has"));
+    }
+
 }

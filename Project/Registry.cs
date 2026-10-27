@@ -44,14 +44,7 @@ public class Registry : IListed
 
     public Character? Find(string name)
     {
-        foreach (Character character in _items)
-        {
-            if (character.Name == name)
-            {
-                return character;
-            }
-        }
-        return null;
+        return _items.FirstOrDefault(item => item.Name == name);
     }
 
     public bool Remove(string name)
@@ -96,9 +89,7 @@ public class Registry : IListed
 
         _items.Clear();
 
-        foreach (Character item in loaded)
-        {
-            _items.Add(item);
-        }
+
+        _items.AddRange(loaded);
     }
 }

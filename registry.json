@@ -53,5 +53,16 @@
     "Background": "Chef",
     "Age": 32,
     "Level": 1
+  },
+  {
+    "Kind": "CHARACTER",
+    "Name": "Virgil Pureman",
+    "FirstName": "Virgil",
+    "LastName": "Pureman",
+    "Species": "Human",
+    "Class": "Bard",
+    "Background": "background",
+    "Age": 36,
+    "Level": 1
   }
 ]
