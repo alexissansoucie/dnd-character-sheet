@@ -1,4 +1,5 @@
 // Project/Registry.cs
+using System.Runtime.CompilerServices;
 using System.Text.Json;
 
 
@@ -91,5 +92,9 @@ public class Registry : IListed
 
 
         _items.AddRange(loaded);
+    }
+
+    public List<Character> Matching(string term){
+        return _items.Where(item => item.Name.Contains(term)).ToList();
     }
 }
