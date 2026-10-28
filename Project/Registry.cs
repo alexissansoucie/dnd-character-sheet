@@ -97,4 +97,9 @@ public class Registry : IListed
     public List<Character> Matching(string term){
         return _items.Where(item => item.Name.Contains(term)).ToList();
     }
+
+    public List<string> Names()
+    {
+        return _items.Select(item => item.Name).ToList();
+    }
 }

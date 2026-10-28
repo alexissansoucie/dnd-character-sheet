@@ -170,5 +170,9 @@ class Program
                 ? $"  Nothing on file with \"{term.Trim()}\" in it."
                 : $"  {found.Count} on file with \"{term.Trim()}\" in it.");
         }
+
+        Console.WriteLine();
+        Console.WriteLine($"On the books, as they arrived: {string.Join(", ", registry.Names())}");
+
     }
 }
