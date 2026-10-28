@@ -1,4 +1,5 @@
 // Project/Registry.cs
+using System.Runtime.CompilerServices;
 using System.Text.Json;
 
 
@@ -44,14 +45,7 @@ public class Registry : IListed
 
     public Character? Find(string name)
     {
-        foreach (Character character in _items)
-        {
-            if (character.Name == name)
-            {
-                return character;
-            }
-        }
-        return null;
+        return _items.FirstOrDefault(item => item.Name == name);
     }
 
     public bool Remove(string name)
@@ -96,9 +90,21 @@ public class Registry : IListed
 
         _items.Clear();
 
-        foreach (Character item in loaded)
-        {
-            _items.Add(item);
-        }
+
+        _items.AddRange(loaded);
+    }
+
+    public List<Character> Matching(string term){
+        return _items.Where(item => item.Name.Contains(term)).ToList();
+    }
+
+    public List<string> Names()
+    {
+        return _items.Select(item => item.Name).ToList();
+    }
+
+    public List<Character> Sorted()
+    {
+        return _items.OrderBy(item => item.Name).ToList();
     }
 }
