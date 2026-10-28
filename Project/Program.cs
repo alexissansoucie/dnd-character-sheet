@@ -155,6 +155,7 @@ class Program
             }
         }
 
+        registry.Add(registry.NewItem("Ariel Lowwater"));
         registry.Save(registryFile);
         Console.WriteLine($"{registry.Count} on file, saved to {registryFile}.");
 
@@ -173,6 +174,13 @@ class Program
 
         Console.WriteLine();
         Console.WriteLine($"On the books, as they arrived: {string.Join(", ", registry.Names())}");
+        Console.WriteLine();
+        Console.WriteLine("In order:");
+
+        foreach (var record in registry.Sorted())
+        {
+            Console.WriteLine($"  {record.Name}");
+        }
 
     }
 }

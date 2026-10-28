@@ -102,4 +102,9 @@ public class Registry : IListed
     {
         return _items.Select(item => item.Name).ToList();
     }
+
+    public List<Character> Sorted()
+    {
+        return _items.OrderBy(item => item.Name).ToList();
+    }
 }
