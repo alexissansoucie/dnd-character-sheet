@@ -1,4 +1,5 @@
 using Microsoft.Win32;
+using Microsoft.EntityFrameworkCore;
 
 namespace Project.Tests;
 
@@ -61,21 +62,47 @@ public class RegistryTests
     [Fact]
     public void Week8_TheRegistrySurvivesARestart()
     {
-        string path = Path.Combine(Path.GetTempPath(), "something-yours.json");
-        File.Delete(path);
+        DbContextOptions<ProjectContext> options = new DbContextOptionsBuilder<ProjectContext>()
+            .UseInMemoryDatabase(Guid.NewGuid().ToString())
+            .Options;
 
         Registry registry = new Registry();
         Character item = registry.NewItem("Arwen Thornheart");
         registry.Add(item);
         item.LevelUp();
 
-        registry.Save(path);
+        registry.Save(new ProjectContext(options));
 
         Registry reopened = new Registry();
-        reopened.Load(path);
+        reopened.Load(new ProjectContext(options));
 
         Assert.Equal(1, reopened.Count);
         Assert.Equal(2, reopened.All()[0].Level);
+    }
+
+    [Fact]
+    public void Week10_ASecondSaveChangesTheRow()
+    {
+        DbContextOptions<ProjectContext> options = new DbContextOptionsBuilder<ProjectContext>()
+            .UseInMemoryDatabase(Guid.NewGuid().ToString())
+            .Options;
+
+        Registry registry = new Registry();
+        registry.Add(registry.NewItem("Virgil Pureman"));
+        registry.Save(new ProjectContext(options));
+
+        ProjectContext db = new ProjectContext(options);
+        Registry nextRun = new Registry();
+        nextRun.Load(db);
+        Character item = nextRun.Find("Virgil Pureman")!;
+        item.LevelUp();
+        nextRun.Save(db);
+
+        Registry reopened = new Registry();
+        reopened.Load(new ProjectContext(options));
+
+        Assert.Equal(1, reopened.Count);
+        Assert.Equal(2, reopened.Find("virgil Pureman")!.Level);
     }
 
     [Fact]

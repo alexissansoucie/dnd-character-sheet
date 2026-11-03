@@ -1,6 +1,6 @@
 // Project/Registry.cs
 using System.Runtime.CompilerServices;
-using System.Text.Json;
+using Microsoft.EntityFrameworkCore.Query;
 
 
 public class Registry : IListed
@@ -45,7 +45,8 @@ public class Registry : IListed
 
     public Character? Find(string name)
     {
-        return _items.FirstOrDefault(item => item.Name == name);
+        return _items.FirstOrDefault(item =>
+            string.Equals(item.Name, name, StringComparison.OrdinalIgnoreCase));
     }
 
     public bool Remove(string name)
@@ -65,25 +66,28 @@ public class Registry : IListed
 
     public string Line() => $"{Registry.Topic} with {_items.Count} on file";
 
-    public void Save(string path)
+    public void Save(ProjectContext db)
     {
-         string json = JsonSerializer.Serialize(_items,
-            new JsonSerializerOptions { WriteIndented = true });
-
-        File.WriteAllText(path, json);
-    }
-
-    public void Load(string path)
-    {
-        if (!File.Exists(path))
+        foreach (Character item in _items)
         {
-            return;
+            if (item.Id == 0)
+            {
+                db.Characters.Add(item);
+            }
+            else
+            {
+                db.Characters.Update(item);
+            }
         }
 
-        List<Character>? loaded =
-            JsonSerializer.Deserialize<List<Character>>(File.ReadAllText(path));
+        db.SaveChanges();
+    }
 
-        if (loaded == null)
+    public void Load(ProjectContext db)
+    {
+        List<Character> loaded = db.Characters.OrderBy(item => item.Id).ToList();
+
+        if (loaded.Count == 0)
         {
             return;
         }
@@ -94,7 +98,8 @@ public class Registry : IListed
         _items.AddRange(loaded);
     }
 
-    public List<Character> Matching(string term){
+    public List<Character> Matching(string term)
+    {
         return _items.Where(item => item.Name.Contains(term)).ToList();
     }
 

@@ -50,7 +50,14 @@ public static class CharacterTable
         do
         {
             searchMethod = Console.ReadLine()?.Trim() ?? string.Empty;
-            if (string.IsNullOrEmpty(searchMethod) || !(searchMethod.ToLower() == "f" || !(searchMethod.ToLower() == "p")))
+            if (string.IsNullOrEmpty(searchMethod))
+            {
+                return;
+            }
+
+            if (string.IsNullOrEmpty(searchMethod) ||
+                !(searchMethod.Equals("f", StringComparison.OrdinalIgnoreCase) ||
+                  searchMethod.Equals("p", StringComparison.OrdinalIgnoreCase)))
             {
                 AnsiConsole.MarkupLine("[red]A valid response is required.[/]");
             }
@@ -60,7 +67,7 @@ public static class CharacterTable
             }
 
 
-        } while (valid);
+        } while (!valid);
 
         AnsiConsole.Markup("[aqua]What is the Character's name?[/] ");
         string name;
@@ -69,8 +76,7 @@ public static class CharacterTable
             name = Console.ReadLine()?.Trim() ?? string.Empty;
             if (string.IsNullOrEmpty(name))
             {
-                AnsiConsole.MarkupLine("[red]A response is required.[/]");
-                AnsiConsole.Markup("[aqua]What is the Character's name?[/] ");
+                return;
             }
 
 
@@ -100,6 +106,11 @@ public static class CharacterTable
         while (true)
         {
             string input = Console.ReadLine()?.Trim() ?? string.Empty;
+
+            if (string.IsNullOrEmpty(input))
+            {
+                return;
+            }
 
             if (!int.TryParse(input, out int index))
             {
