@@ -1,6 +1,6 @@
 // Project/Registry.cs
 using System.Runtime.CompilerServices;
-using System.Text.Json;
+using Microsoft.EntityFrameworkCore.Query;
 
 
 public class Registry : IListed
@@ -65,25 +65,21 @@ public class Registry : IListed
 
     public string Line() => $"{Registry.Topic} with {_items.Count} on file";
 
-    public void Save(string path)
+    public void Save(ProjectContext db)
     {
-         string json = JsonSerializer.Serialize(_items,
-            new JsonSerializerOptions { WriteIndented = true });
-
-        File.WriteAllText(path, json);
-    }
-
-    public void Load(string path)
-    {
-        if (!File.Exists(path))
+         foreach (Character character in _items)
         {
-            return;
+            db.Characters.Add(character);
         }
 
-        List<Character>? loaded =
-            JsonSerializer.Deserialize<List<Character>>(File.ReadAllText(path));
+        db.SaveChanges();
+    }
 
-        if (loaded == null)
+    public void Load(ProjectContext db)
+    {
+        List<Character> loaded = db.Characters.OrderBy(item => item.Id).ToList();
+
+        if (loaded.Count == 0)
         {
             return;
         }
