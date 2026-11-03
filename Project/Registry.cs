@@ -45,7 +45,8 @@ public class Registry : IListed
 
     public Character? Find(string name)
     {
-        return _items.FirstOrDefault(item => item.Name == name);
+        return _items.FirstOrDefault(item =>
+            string.Equals(item.Name, name, StringComparison.OrdinalIgnoreCase));
     }
 
     public bool Remove(string name)
@@ -67,9 +68,16 @@ public class Registry : IListed
 
     public void Save(ProjectContext db)
     {
-         foreach (Character character in _items)
+        foreach (Character item in _items)
         {
-            db.Characters.Add(character);
+            if (item.Id == 0)
+            {
+                db.Characters.Add(item);
+            }
+            else
+            {
+                db.Characters.Update(item);
+            }
         }
 
         db.SaveChanges();
@@ -90,7 +98,8 @@ public class Registry : IListed
         _items.AddRange(loaded);
     }
 
-    public List<Character> Matching(string term){
+    public List<Character> Matching(string term)
+    {
         return _items.Where(item => item.Name.Contains(term)).ToList();
     }
 

@@ -81,6 +81,31 @@ public class RegistryTests
     }
 
     [Fact]
+    public void Week10_ASecondSaveChangesTheRow()
+    {
+        DbContextOptions<ProjectContext> options = new DbContextOptionsBuilder<ProjectContext>()
+            .UseInMemoryDatabase(Guid.NewGuid().ToString())
+            .Options;
+
+        Registry registry = new Registry();
+        registry.Add(registry.NewItem("Virgil Pureman"));
+        registry.Save(new ProjectContext(options));
+
+        ProjectContext db = new ProjectContext(options);
+        Registry nextRun = new Registry();
+        nextRun.Load(db);
+        Character item = nextRun.Find("Virgil Pureman")!;
+        item.LevelUp();
+        nextRun.Save(db);
+
+        Registry reopened = new Registry();
+        reopened.Load(new ProjectContext(options));
+
+        Assert.Equal(1, reopened.Count);
+        Assert.Equal(2, reopened.Find("virgil Pureman")!.Level);
+    }
+
+    [Fact]
     public void Week9_FindComesBackEmptyHanded()
     {
         Registry registry = new Registry();
