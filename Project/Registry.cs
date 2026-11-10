@@ -80,6 +80,14 @@ public class Registry : IListed
             }
         }
 
+        foreach (Character row in db.Characters.ToList())
+        {
+            if (!_items.Any(item => item.Id == row.Id))
+            {
+                db.Characters.Remove(row);
+            }
+        }
+
         db.SaveChanges();
     }
 
