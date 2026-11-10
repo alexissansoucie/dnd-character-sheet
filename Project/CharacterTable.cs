@@ -109,6 +109,7 @@ public static class CharacterTable
 
             if (string.IsNullOrEmpty(input))
             {
+                AnsiConsole.MarkupLine("[red]Nothing Removed.[/]");
                 return;
             }
 
@@ -128,18 +129,35 @@ public static class CharacterTable
 
             Character character = characters[index];
 
-            AnsiConsole.Markup($"[red]Are you sure you want to remove {Markup.Escape(character.Name)}? (y/n)[/] ");
-            string confirmation = Console.ReadLine()?.Trim().ToLower() ?? string.Empty;
-
-            if (confirmation != "y" && confirmation != "yes")
+            while (true)
             {
-                AnsiConsole.MarkupLine("[yellow]Character was not removed.[/]");
-                break;
-            }
+                AnsiConsole.Markup($"[red]Are you sure you want to remove {Markup.Escape(character.Name)}? (y/n)[/] ");
+                string? confirmationInput = Console.ReadLine();
 
-            registry.Remove(character.Name);
-            AnsiConsole.MarkupLine($"[red]{character.Name} has been removed[/]");
-            break;
+                if (confirmationInput is null)
+                {
+                    return;
+                }
+
+                string confirmation = confirmationInput.Trim();
+
+                if (confirmation.Equals("y", StringComparison.OrdinalIgnoreCase) ||
+                    confirmation.Equals("yes", StringComparison.OrdinalIgnoreCase))
+                {
+                    registry.Remove(character.Name);
+                    AnsiConsole.MarkupLine($"[red]{character.Name} has been removed[/]");
+                    return;
+                }
+
+                if (confirmation.Equals("n", StringComparison.OrdinalIgnoreCase) ||
+                    confirmation.Equals("no", StringComparison.OrdinalIgnoreCase))
+                {
+                    AnsiConsole.MarkupLine("[yellow]Character was not removed.[/]");
+                    return;
+                }
+
+                AnsiConsole.MarkupLine("[red]Please enter yes or no.[/]");
+            }
         }
     }
 

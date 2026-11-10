@@ -7,7 +7,7 @@ using System.Linq;
 class Program
 {
     static void Main(string[] args)
-    {    
+    {
         var registry = new Registry();
         ProjectContext db = new ProjectContext();
         registry.Load(db);
@@ -114,33 +114,8 @@ class Program
                     break;
             }
         }
-
-        registry.Add(registry.NewItem("Ariel Lowwater"));
         registry.Save(db);
         Console.WriteLine($"{registry.Count} on file, saved to {db}.");
-
-        Console.WriteLine();
-        Console.Write("Search (a word, or Enter to skip): ");
-        string? term = Console.ReadLine();
-
-        if (!string.IsNullOrWhiteSpace(term))
-        {
-            var found = registry.Matching(term.Trim());
-
-            Console.WriteLine(found.Count == 0
-                ? $"  Nothing on file with \"{term.Trim()}\" in it."
-                : $"  {found.Count} on file with \"{term.Trim()}\" in it.");
-        }
-
-        Console.WriteLine();
-        Console.WriteLine($"On the books, as they arrived: {string.Join(", ", registry.Names())}");
-        Console.WriteLine();
-        Console.WriteLine("In order:");
-
-        foreach (var record in registry.Sorted())
-        {
-            Console.WriteLine($"  {record.Name}");
-        }
 
     }
 }
