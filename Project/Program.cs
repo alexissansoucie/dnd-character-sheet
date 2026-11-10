@@ -116,6 +116,7 @@ class Program
         }
 
         registry.Add(registry.NewItem("Ariel Lowwater"));
+        registry.Remove("Ariel Lowwater");
         registry.Save(db);
         Console.WriteLine($"{registry.Count} on file, saved to {db}.");
 
