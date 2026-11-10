@@ -5,3 +5,4 @@
 - Week 8: The registry writes itself down, And reads itself back, A record keeps its own facts, and my fact proves it, made other design changes
 - Week 9: this week's checks, Find and Load, one line each, and my fact about Find, The registry finds every match, The registry hands back its names, And it comes back in order
 - Week 10: this week's checks, EF Core, and somewhere for the password, A record the database can keep, The migration that made the table, The registry moves into the database, A second save changes the row
+- week 11: removal of record complete
