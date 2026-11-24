@@ -115,7 +115,7 @@ public class RegistryTests
         Assert.Null(registry.Find("a name nobody has"));
     }
 
-        [Fact]
+    [Fact]
     public void Week11_ARemovedRecordStaysGone()
     {
         DbContextOptions<ProjectContext> options = new DbContextOptionsBuilder<ProjectContext>()
@@ -171,5 +171,16 @@ public class RegistryTests
             new[] { "Lute" },
             reopened.Find("Virgil Pureman")!.CharactersInventory
                 .Select(detail => detail.Name));
+    }
+    [Fact]
+    public void Week13_ABadFileAddsNothing()
+    {
+        string path = Path.Combine(Path.GetTempPath(), Guid.NewGuid() + ".json");
+        File.WriteAllText(path, """[ "a name of yours", "" ]""");
+
+        Registry registry = new Registry();
+
+        Assert.Throws<InvalidDataException>(() => registry.Import(path));
+        Assert.Equal(0, registry.Count);
     }
 }
