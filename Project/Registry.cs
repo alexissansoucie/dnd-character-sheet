@@ -136,4 +136,9 @@ public class Registry : IListed
     {
         return _items.OrderBy(item => item.Name).ToList();
     }
+
+    public int Import(string path)
+    {
+        return 0;
+    }
 }
