@@ -18,9 +18,19 @@ public class Character : IListed
     private int _level = 1;
     public string Kind => "CHARACTER";
     public List<CharacterInventory> CharactersInventory { get; private set; } = new List<CharacterInventory>();
+    public DateTime? Added { get; private set; }
 
+    public string AddedOn()
+    {
+        if (Added == null)
+        {
+            return "-";
+        }
 
-    public string Line() => $"{Name} is a {Species} {Class} and is currently Level {Level}";
+        return Added.Value.ToString("yyyy-MM-dd");
+    }
+
+    public string Line() => $"{Name} is a {Species} {Class} and is currently Level {Level} - added {AddedOn()}";
 
     [JsonInclude]
     public string Name
@@ -129,6 +139,7 @@ public class Character : IListed
         Class = characterClass;
         Background = background;
         Age = age;
+        Added = DateTime.Now;
     }
     public static Character AddCharacter()
     {
