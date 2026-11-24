@@ -62,6 +62,60 @@ namespace Project.Migrations
 
                     b.ToTable("Characters");
                 });
+
+            modelBuilder.Entity("CharacterInventory", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int");
+
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
+
+                    b.Property<string>("Damage")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("Description")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("Name")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<int>("Quantity")
+                        .HasColumnType("int");
+
+                    b.Property<string>("Type")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<double>("Weight")
+                        .HasColumnType("float");
+
+                    b.Property<int>("YourRecordId")
+                        .HasColumnType("int");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("YourRecordId");
+
+                    b.ToTable("CharactersInventory");
+                });
+
+            modelBuilder.Entity("CharacterInventory", b =>
+                {
+                    b.HasOne("Character", null)
+                        .WithMany("CharactersInventory")
+                        .HasForeignKey("YourRecordId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+                });
+
+            modelBuilder.Entity("Character", b =>
+                {
+                    b.Navigation("CharactersInventory");
+                });
 #pragma warning restore 612, 618
         }
     }
