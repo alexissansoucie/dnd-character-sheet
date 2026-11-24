@@ -129,6 +129,7 @@ class Program
                     break;
             }
         }
+        RegistryDesk.Import(registry);
         registry.Save(db);
         Console.WriteLine($"{registry.Count} on file, saved to {db}.");
 

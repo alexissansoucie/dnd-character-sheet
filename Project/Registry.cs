@@ -2,6 +2,7 @@
 using System.Runtime.CompilerServices;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Query;
+using System.Text.Json;
 
 
 public class Registry : IListed
@@ -137,8 +138,18 @@ public class Registry : IListed
         return _items.OrderBy(item => item.Name).ToList();
     }
 
-    public int Import(string path)
+        public int Import(string path)
     {
-        return 0;
+        string json = File.ReadAllText(path);
+        List<string> names = JsonSerializer.Deserialize<List<string>>(json) ?? new List<string>();
+
+        int before = Count;
+
+        foreach (string name in names)
+        {
+            Add(NewItem(name));
+        }
+
+        return Count - before;
     }
 }
