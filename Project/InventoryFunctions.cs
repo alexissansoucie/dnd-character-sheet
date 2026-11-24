@@ -21,17 +21,9 @@ public static class InventoryFunctions
                     Display(character);
                     break;
                 case "2":
-                    AnsiConsole.Markup("[aqua]What is the item's name?[/] ");
-                    string itemName = Console.ReadLine()?.Trim() ?? string.Empty;
-
-                    if (string.IsNullOrEmpty(itemName))
-                    {
-                        AnsiConsole.MarkupLine("[red]An item name is required.[/]");
-                        break;
-                    }
-
-                    Add(character, new CharacterInventory(itemName));
-                    AnsiConsole.MarkupLine($"[green]{Markup.Escape(itemName)} added to the inventory.[/]");
+                    CharacterInventory item = ReadInventoryItem();
+                    Add(character, item);
+                    AnsiConsole.MarkupLine($"[green]{Markup.Escape(item.Name)} added to the inventory.[/]");
                     break;
                 case "3":
                     RemoveFromMenu(character);
@@ -58,7 +50,10 @@ public static class InventoryFunctions
         table.AddColumn("[bold DarkMagenta]Name[/]");
         table.AddColumn("[bold aqua]Type[/]");
         table.AddColumn("[bold blue]Quantity[/]");
+        table.AddColumn("[bold teal]Unit Weight[/]");
         table.AddColumn("[bold teal]Total Weight[/]");
+        table.AddColumn("[bold purple]Damage[/]");
+        table.AddColumn("[bold blue]Description[/]");
 
         for (int index = 0; index < character.CharactersInventory.Count; index++)
         {
@@ -68,7 +63,10 @@ public static class InventoryFunctions
                 Markup.Escape(item.Name),
                 Markup.Escape(item.Type),
                 item.Quantity.ToString(),
-                item.TotalWeight.ToString());
+                item.Weight.ToString(),
+                item.TotalWeight.ToString(),
+                Markup.Escape(item.Damage),
+                Markup.Escape(item.Description));
         }
 
         AnsiConsole.Write(table);
@@ -88,6 +86,69 @@ public static class InventoryFunctions
 
         character.CharactersInventory.RemoveAt(index);
         return true;
+    }
+
+    private static CharacterInventory ReadInventoryItem()
+    {
+        string name = ReadRequiredText("[aqua]What is the item's name?[/] ");
+        string type = ReadRequiredText("[aqua]What is the item's type?[/] ");
+        double weight = ReadWeight();
+
+        AnsiConsole.Markup("[aqua]What is the item's description? (optional)[/] ");
+        string description = Console.ReadLine()?.Trim() ?? string.Empty;
+
+        string damage = ReadRequiredText("[aqua]What damage does it do? (enter None if not applicable)[/] ");
+        int quantity = ReadQuantity();
+
+        return new CharacterInventory(name, type, weight, description, damage, quantity);
+    }
+
+    private static string ReadRequiredText(string prompt)
+    {
+        while (true)
+        {
+            AnsiConsole.Markup(prompt);
+            string value = Console.ReadLine()?.Trim() ?? string.Empty;
+
+            if (!string.IsNullOrWhiteSpace(value))
+            {
+                return value;
+            }
+
+            AnsiConsole.MarkupLine("[red]A response is required.[/]");
+        }
+    }
+
+    private static double ReadWeight()
+    {
+        while (true)
+        {
+            AnsiConsole.Markup("[aqua]What is the item's weight? Enter 0 or greater.[/] ");
+            string input = Console.ReadLine()?.Trim() ?? string.Empty;
+
+            if (double.TryParse(input, out double weight) && double.IsFinite(weight) && weight >= 0)
+            {
+                return weight;
+            }
+
+            AnsiConsole.MarkupLine("[red]Enter a valid non-negative weight.[/]");
+        }
+    }
+
+    private static int ReadQuantity()
+    {
+        while (true)
+        {
+            AnsiConsole.Markup("[aqua]How many are in the inventory? Enter a positive whole number.[/] ");
+            string input = Console.ReadLine()?.Trim() ?? string.Empty;
+
+            if (int.TryParse(input, out int quantity) && quantity > 0)
+            {
+                return quantity;
+            }
+
+            AnsiConsole.MarkupLine("[red]Enter a valid quantity greater than zero.[/]");
+        }
     }
 
     private static void RemoveFromMenu(Character character)
