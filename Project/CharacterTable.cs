@@ -1,4 +1,5 @@
 using Spectre.Console;
+
 public static class CharacterTable
 {
     public static void Display(Registry registry)
@@ -22,7 +23,6 @@ public static class CharacterTable
         table.AddColumn("[bold teal]Level[/]");
 
         int rowIndex = 0;
-
         foreach (Character character in registry.All())
         {
             string rowColor = rowIndex % 2 == 0 ? "blue" : "purple";
@@ -40,134 +40,34 @@ public static class CharacterTable
         }
 
         AnsiConsole.Write(table);
-    }
-
-    public static void FindCharacter(Registry registry)
-    {   
-        AnsiConsole.Markup("[purple]Search by Full Name (f) or Partial Name (p)[/] ");
-        string searchMethod;
-        bool valid = false;
-        do
+        if (registry.Count == 0)
         {
-            searchMethod = Console.ReadLine()?.Trim() ?? string.Empty;
-            if (string.IsNullOrEmpty(searchMethod))
-            {
-                return;
-            }
-
-            if (string.IsNullOrEmpty(searchMethod) ||
-                !(searchMethod.Equals("f", StringComparison.OrdinalIgnoreCase) ||
-                  searchMethod.Equals("p", StringComparison.OrdinalIgnoreCase)))
-            {
-                AnsiConsole.MarkupLine("[red]A valid response is required.[/]");
-            }
-            else
-            {
-                valid = true;
-            }
-
-
-        } while (!valid);
-
-        AnsiConsole.Markup("[aqua]What is the Character's name?[/] ");
-        string name;
-        do
-        {
-            name = Console.ReadLine()?.Trim() ?? string.Empty;
-            if (string.IsNullOrEmpty(name))
-            {
-                return;
-            }
-
-
-        } while (string.IsNullOrEmpty(name));
-
-        switch (searchMethod)
-        {
-            case "f":
-                Console.WriteLine(registry.Find(name));
-                break;
-            case "p":
-                Console.WriteLine(registry.Matching(name));
-                break;
-            default:
-                    AnsiConsole.MarkupLine("[fuchsia]Please enter a valid response (f,p)[/]");
-                    break;
+            AnsiConsole.MarkupLine("[yellow]There are no characters to select.[/]");
+            return;
         }
-        
-    }
 
-    public static void RemoveCharacter(Registry registry)
-    {
-        Display(registry);
-
-        AnsiConsole.Markup("[aqua]Which number character do you want to remove?[/] ");
-
+        AnsiConsole.MarkupLine("[DeepSkyBlue4]Would you like to select a character (y/n)?[/]");
         while (true)
         {
-            string input = Console.ReadLine()?.Trim() ?? string.Empty;
+            string? selection = Console.ReadLine()?.Trim();
 
-            if (string.IsNullOrEmpty(input))
+            if (selection != null &&
+                (selection.Equals("n", StringComparison.OrdinalIgnoreCase) ||
+                 selection.Equals("no", StringComparison.OrdinalIgnoreCase)))
             {
-                AnsiConsole.MarkupLine("[red]Nothing Removed.[/]");
                 return;
             }
 
-            if (!int.TryParse(input, out int index))
+            if (selection != null &&
+                (selection.Equals("y", StringComparison.OrdinalIgnoreCase) ||
+                 selection.Equals("yes", StringComparison.OrdinalIgnoreCase)))
             {
-                AnsiConsole.MarkupLine("[red]Enter a valid number.[/]");
-                continue;
+                CharacterFunctions.SelectCharacter(registry);
+                return;
             }
 
-            List<Character> characters = registry.All();
-
-            if (index < 0 || index >= characters.Count)
-            {
-                AnsiConsole.MarkupLine("[red]That index does not exist.[/]");
-                continue;
-            }
-
-            Character character = characters[index];
-
-            while (true)
-            {
-                AnsiConsole.Markup($"[red]Are you sure you want to remove {Markup.Escape(character.Name)}? (y/n)[/] ");
-                string? confirmationInput = Console.ReadLine();
-
-                if (confirmationInput is null)
-                {
-                    return;
-                }
-
-                string confirmation = confirmationInput.Trim();
-
-                if (confirmation.Equals("y", StringComparison.OrdinalIgnoreCase) ||
-                    confirmation.Equals("yes", StringComparison.OrdinalIgnoreCase))
-                {
-                    registry.Remove(character.Name);
-                    AnsiConsole.MarkupLine($"[red]{character.Name} has been removed[/]");
-                    return;
-                }
-
-                if (confirmation.Equals("n", StringComparison.OrdinalIgnoreCase) ||
-                    confirmation.Equals("no", StringComparison.OrdinalIgnoreCase))
-                {
-                    AnsiConsole.MarkupLine("[yellow]Character was not removed.[/]");
-                    return;
-                }
-
-                AnsiConsole.MarkupLine("[red]Please enter yes or no.[/]");
-            }
+            AnsiConsole.MarkupLine("[red]Please enter yes or no.[/]");
+            AnsiConsole.Markup("[DeepSkyBlue4]Would you like to select a character (y/n)?[/] ");
         }
     }
-
-    public static void LevelUpCharacters(Registry registry)
-    {
-        foreach (Character character in registry.All())
-        {
-            character.LevelUp();
-        }
-        AnsiConsole.MarkupLine("[DeepSkyBlue4]\nALL CHARACTERS LEVELED UP!!![/]");
-    }
-
 }

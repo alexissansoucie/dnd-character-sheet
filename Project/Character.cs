@@ -17,6 +17,8 @@ public class Character : IListed
     private int _age;
     private int _level = 1;
     public string Kind => "CHARACTER";
+    public List<CharacterInventory> CharactersInventory { get; private set; } = new List<CharacterInventory>();
+
 
     public string Line() => $"{Name} is a {Species} {Class} and is currently Level {Level}";
 
@@ -135,24 +137,24 @@ public class Character : IListed
         do
         {
             firstName = Console.ReadLine()?.Trim() ?? string.Empty;
-            if (string.IsNullOrEmpty(firstName))
+            if (!firstName.Any(char.IsLetter))
             {
-                AnsiConsole.MarkupLine("[red]A response is required.[/]");
+                AnsiConsole.MarkupLine("[red]Enter a first name that contains at least one letter.[/]");
                 AnsiConsole.Markup("[aqua]What is your Character's first name?[/] ");
             }
-        } while (string.IsNullOrEmpty(firstName));
+        } while (!firstName.Any(char.IsLetter));
 
         AnsiConsole.Markup("[aqua]What is your Character's last name?[/] ");
         string lastName;
         do
         {
             lastName = Console.ReadLine()?.Trim() ?? string.Empty;
-            if (string.IsNullOrEmpty(lastName))
+            if (!lastName.Any(char.IsLetter))
             {
-                AnsiConsole.MarkupLine("[red]A response is required.[/]");
+                AnsiConsole.MarkupLine("[red]Enter a last name that contains at least one letter.[/]");
                 AnsiConsole.Markup("[aqua]What is your Character's last name?[/] ");
             }
-        } while (string.IsNullOrEmpty(lastName));
+        } while (!lastName.Any(char.IsLetter));
 
         string name = $"{firstName} {lastName}";
 

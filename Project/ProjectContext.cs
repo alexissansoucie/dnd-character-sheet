@@ -4,6 +4,7 @@ using Microsoft.Extensions.Configuration;
 public class ProjectContext : DbContext
 {
     public DbSet<Character> Characters { get; set; }
+    public DbSet<CharacterInventory> CharactersInventory { get; set; }
     public ProjectContext()
     {
     }
@@ -25,5 +26,13 @@ public class ProjectContext : DbContext
             .Build();
 
         options.UseSqlServer(config["ConnectionStrings:Project"]);
+    }
+
+    protected override void OnModelCreating(ModelBuilder modelBuilder)
+    {
+        modelBuilder.Entity<Character>()
+            .HasMany(character => character.CharactersInventory)
+            .WithOne()
+            .HasForeignKey(detail => detail.YourRecordId);
     }
 }
