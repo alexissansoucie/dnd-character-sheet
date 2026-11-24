@@ -1,5 +1,6 @@
 // Project/Registry.cs
 using System.Runtime.CompilerServices;
+using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Query;
 
 
@@ -11,6 +12,7 @@ public class Registry : IListed
     public static string Topic => "D&D Character Sheet Manager";     // ← yours
 
     public Character NewItem(string name) => new Character(name);
+    public CharacterInventory NewDetail(string name) => new CharacterInventory(name);
 
     public void Add(Character item)
     {
@@ -93,7 +95,10 @@ public class Registry : IListed
 
     public void Load(ProjectContext db)
     {
-        List<Character> loaded = db.Characters.OrderBy(item => item.Id).ToList();
+        List<Character> loaded = db.Characters
+            .Include(item => item.CharactersInventory)
+            .OrderBy(item => item.Id)
+            .ToList();
 
         if (loaded.Count == 0)
         {
@@ -106,9 +111,20 @@ public class Registry : IListed
         _items.AddRange(loaded);
     }
 
+    public List<string> WithDetails(ProjectContext db)
+    {
+        return db.Characters
+            .Where(item => item.CharactersInventory.Any())
+            .OrderBy(item => item.Name)
+            .Select(item => item.Name)
+            .ToList();
+    }
+
     public List<Character> Matching(string term)
     {
-        return _items.Where(item => item.Name.Contains(term)).ToList();
+        return _items
+            .Where(item => item.Name.Contains(term, StringComparison.OrdinalIgnoreCase))
+            .ToList();
     }
 
     public List<string> Names()

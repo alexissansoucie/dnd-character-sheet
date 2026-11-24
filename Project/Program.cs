@@ -53,7 +53,17 @@ class Program
 
         string[] dragonLines = Dragon.Art.Split(Environment.NewLine);
         int dragonWidth = dragonLines.Max(line => line.Length);
-        int leftPadding = Math.Max(0, (Console.WindowWidth - dragonWidth) / 2);
+        int consoleWidth;
+        try
+        {
+            consoleWidth = Console.WindowWidth;
+        }
+        catch (IOException)
+        {
+            consoleWidth = dragonWidth;
+        }
+
+        int leftPadding = Math.Max(0, (consoleWidth - dragonWidth) / 2);
         for (int lineIndex = 0; lineIndex < dragonLines.Length; lineIndex++)
         {
             string color = lineIndex % 2 == 0 ? "purple" : "blue";
@@ -77,11 +87,11 @@ class Program
             Console.WriteLine();
 
             AnsiConsole.Markup("[bold blue]What do you want to do? [/] ");
-            string choiceInput = Console.ReadLine() ?? string.Empty;
+            string choiceInput = Console.ReadLine()?.Trim() ?? string.Empty;
 
-            if (!int.TryParse(choiceInput, out int choice))
+            if (!int.TryParse(choiceInput, out int choice) || choice < 0 || choice > 5)
             {
-                AnsiConsole.MarkupLine("[fuchsia]Please enter a menu number.[/]");
+                AnsiConsole.MarkupLine("[fuchsia]Please enter a menu number from 0 to 5.[/]");
                 return;
             }
 
@@ -89,28 +99,31 @@ class Program
             {
                 case 1:
                     Character character = Character.AddCharacter();
+                    if (registry.Find(character.Name) != null)
+                    {
+                        AnsiConsole.MarkupLine($"[yellow]A character named {Markup.Escape(character.Name)} is already on file.[/]");
+                        break;
+                    }
+
                     registry.Add(character);
                     break;
                 case 2:
                     CharacterTable.Display(registry);
                     break;
                 case 3:
-                    CharacterTable.FindCharacter(registry);
+                    CharacterFunctions.FindCharacter(registry);
                     break;
 
                 case 4:
-                    CharacterTable.RemoveCharacter(registry);
+                    CharacterFunctions.RemoveCharacter(registry);
                     break;
 
                 case 5:
-                    CharacterTable.LevelUpCharacters(registry);
+                    CharacterFunctions.LevelUpCharacters(registry);
                     break;
 
                 case 0:
                     noExit = false;
-                    break;
-                default:
-                    AnsiConsole.MarkupLine("[fuchsia]Please enter 1, 2, or 0.[/]");
                     break;
             }
         }
