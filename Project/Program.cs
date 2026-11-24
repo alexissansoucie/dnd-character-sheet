@@ -115,10 +115,12 @@ class Program
                     break;
 
                 case 4:
+                    RegistryDesk.Remove(registry);
+                    break;
+                case 5:
                     CharacterFunctions.RemoveCharacter(registry);
                     break;
-
-                case 5:
+                case 6:
                     CharacterFunctions.LevelUpCharacters(registry);
                     break;
 
