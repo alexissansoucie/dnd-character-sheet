@@ -1,5 +1,8 @@
 using Microsoft.Win32;
 using Microsoft.EntityFrameworkCore;
+using Microsoft.EntityFrameworkCore.Migrations;
+using Microsoft.EntityFrameworkCore.Migrations.Operations;
+using Project.Migrations;
 
 namespace Project.Tests;
 
@@ -182,5 +185,16 @@ public class RegistryTests
 
         Assert.Throws<InvalidDataException>(() => registry.Import(path));
         Assert.Equal(0, registry.Count);
+    }
+    [Fact]
+    public void Week14_TheOldRecordsGetThreeDeathSaves()
+    {
+        Migration migration = new EveryRecordGetsDeathSaveRolls();
+
+        AddColumnOperation rolls = migration.UpOperations
+            .OfType<AddColumnOperation>()
+            .Single(op => op.Name == "DeathSaveRolls");
+
+        Assert.Equal(3, rolls.DefaultValue);
     }
 }

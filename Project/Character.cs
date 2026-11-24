@@ -29,8 +29,9 @@ public class Character : IListed
 
         return Added.Value.ToString("yyyy-MM-dd");
     }
+    public int DeathSaveRolls { get; set; } = 3;
 
-    public string Line() => $"{Name} is a {Species} {Class} and is currently Level {Level} - added {AddedOn()}";
+    public string Line() => $"{Name} is a {Species} {Class} and is currently Level {Level} - added {AddedOn()}, {DeathSaveRolls} Death Save Rolls - remaining";
 
     [JsonInclude]
     public string Name
