@@ -91,7 +91,7 @@ class Program
 
             if (!int.TryParse(choiceInput, out int choice) || choice < 0 || choice > 5)
             {
-                AnsiConsole.MarkupLine("[fuchsia]Please enter a menu number from 0 to 5.[/]");
+                AnsiConsole.MarkupLine($"[fuchsia]Please enter a menu number from 0 to {MenuItems.Items.Count - 1}.[/]");
                 return;
             }
 
