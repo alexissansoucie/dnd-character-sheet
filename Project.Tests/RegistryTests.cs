@@ -141,4 +141,35 @@ public class RegistryTests
         Assert.Equal(1, reopened.Count);
         Assert.Null(reopened.Find("Virgil Pureman"));
     }
+
+    [Fact]
+    public void Week12_DetailsComeBack()
+    {
+        DbContextOptions<ProjectContext> options = new DbContextOptionsBuilder<ProjectContext>()
+            .UseInMemoryDatabase(Guid.NewGuid().ToString())
+            .Options;
+
+        Registry registry = new Registry();
+        Character phoenix = registry.NewItem("Phoenix Longbottom");
+        Character virgil = registry.NewItem("Virgil Pureman");
+        registry.Add(phoenix);
+        registry.Add(virgil);
+        phoenix.CharactersInventory.Add(registry.NewDetail("Spellbook"));
+        phoenix.CharactersInventory.Add(registry.NewDetail("Wand"));
+        virgil.CharactersInventory.Add(registry.NewDetail("Lute"));
+        registry.Save(new ProjectContext(options));
+
+        Registry reopened = new Registry();
+        reopened.Load(new ProjectContext(options));
+
+        Assert.Equal(
+            new[] { "Spellbook", "Wand" },
+            reopened.Find("Phoenix Longbottom")!.CharactersInventory
+                .Select(detail => detail.Name)
+                .OrderBy(name => name));
+        Assert.Equal(
+            new[] { "Lute" },
+            reopened.Find("Virgil Pureman")!.CharactersInventory
+                .Select(detail => detail.Name));
+    }
 }
