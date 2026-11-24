@@ -4,6 +4,46 @@ public static class CharacterTable
 {
     public static void Display(Registry registry)
     {
+        DisplayTable(registry);
+
+        if (registry.Count == 0)
+        {
+            AnsiConsole.MarkupLine("[yellow]There are no characters to select.[/]");
+            return;
+        }
+
+        AnsiConsole.MarkupLine("[DeepSkyBlue4]Would you like to select a character (y/n)?[/]");
+        while (true)
+        {
+            string? selection = Console.ReadLine()?.Trim();
+
+            if (selection != null &&
+                (selection.Equals("n", StringComparison.OrdinalIgnoreCase) ||
+                 selection.Equals("no", StringComparison.OrdinalIgnoreCase)))
+            {
+                return;
+            }
+
+            if (selection != null &&
+                (selection.Equals("y", StringComparison.OrdinalIgnoreCase) ||
+                 selection.Equals("yes", StringComparison.OrdinalIgnoreCase)))
+            {
+                CharacterFunctions.SelectCharacter(registry);
+                return;
+            }
+
+            AnsiConsole.MarkupLine("[red]Please enter yes or no.[/]");
+            AnsiConsole.Markup("[DeepSkyBlue4]Would you like to select a character (y/n)?[/] ");
+        }
+    }
+
+    public static void DisplayOnly(Registry registry)
+    {
+        DisplayTable(registry);
+    }
+
+    private static void DisplayTable(Registry registry)
+    {
         AnsiConsole.MarkupLine($"[bold teal]\n{Markup.Escape(Registry.Topic)}[/]");
         AnsiConsole.MarkupLine($"[blue]{registry.Count} character(s) on file.[/]");
 
@@ -40,34 +80,5 @@ public static class CharacterTable
         }
 
         AnsiConsole.Write(table);
-        if (registry.Count == 0)
-        {
-            AnsiConsole.MarkupLine("[yellow]There are no characters to select.[/]");
-            return;
-        }
-
-        AnsiConsole.MarkupLine("[DeepSkyBlue4]Would you like to select a character (y/n)?[/]");
-        while (true)
-        {
-            string? selection = Console.ReadLine()?.Trim();
-
-            if (selection != null &&
-                (selection.Equals("n", StringComparison.OrdinalIgnoreCase) ||
-                 selection.Equals("no", StringComparison.OrdinalIgnoreCase)))
-            {
-                return;
-            }
-
-            if (selection != null &&
-                (selection.Equals("y", StringComparison.OrdinalIgnoreCase) ||
-                 selection.Equals("yes", StringComparison.OrdinalIgnoreCase)))
-            {
-                CharacterFunctions.SelectCharacter(registry);
-                return;
-            }
-
-            AnsiConsole.MarkupLine("[red]Please enter yes or no.[/]");
-            AnsiConsole.Markup("[DeepSkyBlue4]Would you like to select a character (y/n)?[/] ");
-        }
     }
 }

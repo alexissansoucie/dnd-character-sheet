@@ -184,11 +184,11 @@ public static class CharacterFunctions
             return;
         }
 
-        CharacterTable.Display(registry);
+        CharacterTable.DisplayOnly(registry);
 
         while (true)
         {
-            AnsiConsole.Markup("[aqua]Which number character do you want to remove? (enter to cancel)[/] ");
+            AnsiConsole.Markup("[aqua]Enter the character index to remove (or press enter to cancel):[/] ");
             string input = Console.ReadLine()?.Trim() ?? string.Empty;
 
             if (string.IsNullOrEmpty(input))
