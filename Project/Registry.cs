@@ -2,6 +2,7 @@
 using System.Runtime.CompilerServices;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Query;
+using System.Text.Json;
 
 
 public class Registry : IListed
@@ -135,5 +136,28 @@ public class Registry : IListed
     public List<Character> Sorted()
     {
         return _items.OrderBy(item => item.Name).ToList();
+    }
+
+        public int Import(string path)
+    {
+        string json = File.ReadAllText(path);
+        List<string> names = JsonSerializer.Deserialize<List<string>>(json) ?? new List<string>();
+
+                foreach (string name in names)
+        {
+            if (string.IsNullOrWhiteSpace(name))
+            {
+                throw new InvalidDataException("The file has a blank name in it.");
+            }
+        }
+        
+        int before = Count;
+
+        foreach (string name in names)
+        {
+            Add(NewItem(name));
+        }
+
+        return Count - before;
     }
 }

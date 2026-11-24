@@ -3,6 +3,7 @@ using Spectre.Console;
 using System;
 using System.Diagnostics;
 using System.Linq;
+using Microsoft.EntityFrameworkCore;
 
 class Program
 {
@@ -10,6 +11,14 @@ class Program
     {
         var registry = new Registry();
         ProjectContext db = new ProjectContext();
+
+        if (!db.Database.CanConnect())
+        {
+            Console.WriteLine("The program can't reach its database, so it stopped here.");
+            Console.WriteLine("Check your network and your connection string, then run it again.");
+            return;
+        }
+
         registry.Load(db);
 
         Character phoenix = new Character("Phoenix Longbottom", "Phoenix", "Longbottom", "Fairy", "Rouge", "background", 45);
@@ -91,7 +100,7 @@ class Program
 
             if (!int.TryParse(choiceInput, out int choice) || choice < 0 || choice > 5)
             {
-                AnsiConsole.MarkupLine("[fuchsia]Please enter a menu number from 0 to 5.[/]");
+                AnsiConsole.MarkupLine($"[fuchsia]Please enter a menu number from 0 to {MenuItems.Items.Count - 1}.[/]");
                 return;
             }
 
@@ -115,10 +124,12 @@ class Program
                     break;
 
                 case 4:
+                    RegistryDesk.Remove(registry);
+                    break;
+                case 5:
                     CharacterFunctions.RemoveCharacter(registry);
                     break;
-
-                case 5:
+                case 6:
                     CharacterFunctions.LevelUpCharacters(registry);
                     break;
 
@@ -127,7 +138,17 @@ class Program
                     break;
             }
         }
-        registry.Save(db);
+        RegistryDesk.Import(registry);
+        try
+        {
+            registry.Save(db);
+        }
+        catch (DbUpdateException)
+        {
+            Console.WriteLine("A record this run was holding has gone from its table, so nothing was saved.");
+            Console.WriteLine("Run the program again to pick up from what's there.");
+            return;
+        }
         Console.WriteLine($"{registry.Count} on file, saved to {db}.");
 
     }
